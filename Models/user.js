@@ -24,7 +24,7 @@ const User = new mongoose.Schema(
         },
         otherClasses: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
-            ref: "Class"
+            ref: "Classes"
         },
         collabRqsts: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
@@ -34,7 +34,7 @@ const User = new mongoose.Schema(
             type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },
-        institutes:{
+        institutes: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },
@@ -46,7 +46,7 @@ const User = new mongoose.Schema(
         //Student Specific Fields
         classes: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
-            ref: "Class"
+            ref: "Classes"
         }
     }
 )

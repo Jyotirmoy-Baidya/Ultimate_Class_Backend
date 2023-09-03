@@ -1,27 +1,30 @@
-const Users=require("../Models/user")
+const User = require("../Models/user")
 const { ErrorHandler } = require('../utils/errorHandler')
-const createUser=async(req,res,next)=>{
-    
-    try{
-        const findUser=Users.findOne({email:body.email});
-        //for login
-        if(findUser){
+
+//Create An User
+const createUser = async (req, res, next) => {
+    try {
+        const findUser = await User.findOne({ email: req.body.email });
+        //For Login
+        if (findUser) {
             res.status(200).json({
-                success:true,
+                success: true,
             })
-        }else{
-            const user=await Users.create(req.body)
+        }
+        //For Register
+        else {
+            const user = await User.create(req.body)
             res.status(200).json({
-                success:true,
-                data:user
+                success: true,
+                data: user
             })
+        }
     }
-    }catch(err){
-        next(new ErrorHandler(err.message,404))
+    catch (err) {
+        next(new ErrorHandler(err.message, 404))
     }
-    
 }
 
 
 
-module.exports={createUser}
+module.exports = { createUser }

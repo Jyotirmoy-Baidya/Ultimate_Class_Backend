@@ -27,6 +27,8 @@ app.use(errorMiddleware);
 //Routes initial
 console.log(process.env.VERSION);
 app.use(`${process.env.VERSION}`, userRoutes);
+
+app.use(`${process.env.VERSION}/class`, classRoutes);
 // app.use(`${process.env.VERSION}`, classRoutes);
 // app.use(`${process.env.VERSION}`, studentRoutes);
 // app.use(`${process.env.VERSION}`, teacherRoutes);

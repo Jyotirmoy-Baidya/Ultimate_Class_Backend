@@ -7,9 +7,8 @@ const Classes = new mongoose.Schema(
             required: true,
         },
         admin: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: String,
             required: true,
-            ref: "Users"
         },
         classCode: {
             type: String,
@@ -30,8 +29,7 @@ const Classes = new mongoose.Schema(
             type: [{
                 type: {
                     teacherId: {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: "Users"
+                        type: String,
                     },
                     subject: {
                         type: String
