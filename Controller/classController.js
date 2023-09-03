@@ -62,6 +62,7 @@ const DeleteClass = async (req, res, next) => {
 
 //Get My Own Classes
 const GetOwnClasses = async (req, res, next) => {
+
     try {
         const resp = await User.findOne(
             {
@@ -71,12 +72,14 @@ const GetOwnClasses = async (req, res, next) => {
                 ownClasses: 1
             }
         ).populate({ path: "ownClasses", select: ["name", "admin"] })
+
         res.status(200).json({
             success: true,
             data: resp
         })
     }
     catch (err) {
+
         next(new ErrorHandler(err.message, 404));
     }
 }

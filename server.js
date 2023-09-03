@@ -21,9 +21,10 @@ dbconnect();
 //error middle ware
 const { errorMiddleware } = require("./utils/errorHandler.js")
 //middle wares
+
 app.use(express.json());
 app.use(cookie_parser());
-app.use(errorMiddleware);
+
 //Routes initial
 console.log(process.env.VERSION);
 app.use(`${process.env.VERSION}`, userRoutes);
@@ -32,6 +33,7 @@ app.use(`${process.env.VERSION}/class`, classRoutes);
 // app.use(`${process.env.VERSION}`, classRoutes);
 // app.use(`${process.env.VERSION}`, studentRoutes);
 // app.use(`${process.env.VERSION}`, teacherRoutes);
+app.use(errorMiddleware);
 
 
 

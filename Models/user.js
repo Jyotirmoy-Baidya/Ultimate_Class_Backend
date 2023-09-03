@@ -20,7 +20,7 @@ const User = new mongoose.Schema(
         //Teacher Specific Fields
         ownClasses: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
-            ref: "Class"
+            ref: "Classes"
         },
         otherClasses: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
