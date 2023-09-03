@@ -34,6 +34,10 @@ const User = new mongoose.Schema(
             type: [{ type: mongoose.Schema.type.ObjectId }],
             ref: "Users"
         },
+        collabSendRqst: {
+            type: [{ type: mongoose.Schema.type.ObjectId }],
+            ref: "Users"
+        },
 
         //Student Specific Fields
         classes: {
