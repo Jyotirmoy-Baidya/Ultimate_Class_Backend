@@ -19,25 +19,28 @@ const User = new mongoose.Schema(
 
         //Teacher Specific Fields
         ownClasses: {
-            type: [{ type: mongoose.Schema.type.ObjectId }],
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Class"
         },
         otherClasses: {
-            type: [{ type: mongoose.Schema.type.ObjectId }],
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Class"
         },
-        collabRqst: {
-            type: [{ type: mongoose.Schema.type.ObjectId }],
+        collabRqsts: {
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },
         collabTeachers: {
-            type: [{ type: mongoose.Schema.type.ObjectId }],
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },
-
+        institutes:{
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
+            ref: "Users"
+        },
         //Student Specific Fields
         classes: {
-            type: [{ type: mongoose.Schema.type.ObjectId }],
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Class"
         }
     }

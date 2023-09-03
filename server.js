@@ -5,7 +5,10 @@ const path = require('path')
 const dotenv = require('dotenv')
 dotenv.config({ path: path.resolve(__dirname, "./config.env") })
 
-const userRoute = require("./Routes/teacherRoutes");
+const teacherRoutes = require("./Routes/teacherRoutes");
+const studentRoutes = require("./Routes/studentRoutes");
+const userRoutes = require("./Routes/userRoutes");
+const classRoutes = require("./Routes/classRoutes");
 
 
 // const router = require("./routes/route.js")
@@ -16,14 +19,19 @@ const dbconnect = require("./database/database.js")
 dbconnect();
 
 //error middle ware
-// const { errorMiddleware } = require("./utils/error.js")
+const { errorMiddleware } = require("./utils/errorHandler.js")
 //middle wares
 app.use(express.json());
 app.use(cookie_parser());
-
+app.use(errorMiddleware);
 //Routes initial
-app.use(`${process.env.VERSION}`, userRoute);
-// app.use(errorMiddleware);
+console.log(process.env.VERSION);
+app.use(`${process.env.VERSION}`, userRoutes);
+// app.use(`${process.env.VERSION}`, classRoutes);
+// app.use(`${process.env.VERSION}`, studentRoutes);
+// app.use(`${process.env.VERSION}`, teacherRoutes);
+
+
 
 
 

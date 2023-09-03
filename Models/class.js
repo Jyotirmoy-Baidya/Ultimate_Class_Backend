@@ -7,7 +7,7 @@ const Classes = new mongoose.Schema(
             required: true,
         },
         admin: {
-            type: mongoose.Schema.type.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: "Users"
         },
@@ -20,7 +20,7 @@ const Classes = new mongoose.Schema(
             unique: true,
         },
         students: {
-            type: [{ type: mongoose.Schema.type.ObjectId }],
+            type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },
         subjects: {
@@ -30,7 +30,7 @@ const Classes = new mongoose.Schema(
             type: [{
                 type: {
                     teacherId: {
-                        type: mongoose.Schema.type.ObjectId,
+                        type: mongoose.Schema.Types.ObjectId,
                         ref: "Users"
                     },
                     subject: {
