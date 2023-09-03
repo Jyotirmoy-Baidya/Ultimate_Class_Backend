@@ -3,21 +3,22 @@ const Class = require("../Models/class");
 const { ErrorHandler } = require('../utils/errorHandler');
 
 //Adding Class By Admin
+//getData: //className//adminEmail
 const AddClass = async (req, res, next) => {
     try {
         //Creating a New Class
         const NewClass = await Class.create({
-            name: req.body.name,
-            admin: req.body.email,
+            name: req.body.className,
+            admin: req.body.adminEmail,
             subjects: ["Admin"],
             subTeacherPair: [{
-                teacherId: req.body.email,
+                teacherId: req.body.adminEmail,
                 subject: "Admin"
             }]
         });
         //Sending The New Class Id To Admin
         const OwnClassesUpdate = await User.updateOne(
-            { email: req.body.email },
+            { email: req.body.adminEmail },
             {
                 $push: {
                     ownClasses: [NewClass._id]
