@@ -38,7 +38,7 @@ const User = new mongoose.Schema(
             type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },
-        collabSendRqst: {
+        collabSendRqsts: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Users"
         },

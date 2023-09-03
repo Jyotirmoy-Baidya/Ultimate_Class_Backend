@@ -32,7 +32,7 @@ app.use(`${process.env.VERSION}`, userRoutes);
 app.use(`${process.env.VERSION}/class`, classRoutes);
 // app.use(`${process.env.VERSION}`, classRoutes);
 app.use(`${process.env.VERSION}/student`, studentRoutes);
-// app.use(`${process.env.VERSION}`, teacherRoutes);
+app.use(`${process.env.VERSION}/teacher`, teacherRoutes);
 app.use(errorMiddleware);
 
 
