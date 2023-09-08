@@ -284,4 +284,4 @@ const deleteSubTeacherPair = async (req, res, next) => {
         next(new ErrorHandler(error.message, 403))
     }
 }
-module.exports = { AddClass, DeleteClass, GetOwnClasses, addSubjects, addSubTeacherPair, deleteSubTeacherPair };
+module.exports = { AddClass, DeleteClass, addSubjects, addSubTeacherPair, deleteSubTeacherPair };

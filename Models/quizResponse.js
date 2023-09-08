@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const Responses = new mongoose.Schema(
+const quizResponse = new mongoose.Schema(
     {
         quizId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -10,12 +10,26 @@ const Responses = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "Users"
         },
-        responses: {
+        response: {
             type: [{
-                questionId: { type: mongoose.Schema.Types.ObjectId },
-                selectedOptions: [{ type: String }]
-            }],
+                questionId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "QuizQuestions"
+                },
+                studentAnswer: {
+                    type: [String]
+                    //                    required : true
+                }
+            }]
         },
-        score:
+        score: {
+            type: Number,
+            default: 0
+        }
+
+
     }
 )
+
+
+module.exports = mongoose.model("QuizResponse", quizResponse);

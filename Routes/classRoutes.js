@@ -1,5 +1,6 @@
 const express = require("express");
-const { AddClass, DeleteClass, GetOwnClasses, addSubjects, addSubTeacherPair, deleteSubTeacherPair } = require("../Controller/classController");
+const { AddClass, DeleteClass, addSubjects, addSubTeacherPair, deleteSubTeacherPair } = require("../Controller/classController");
+const { GetOwnClasses } = require("../Controller/teacherController");
 const router = express.Router();
 
 
