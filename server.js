@@ -9,6 +9,7 @@ const teacherRoutes = require("./Routes/teacherRoutes");
 const studentRoutes = require("./Routes/studentRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const classRoutes = require("./Routes/classRoutes");
+const quizRoutes = require("./Routes/quizRoutes");
 
 
 // const router = require("./routes/route.js")
@@ -33,6 +34,7 @@ app.use(`${process.env.VERSION}/class`, classRoutes);
 // app.use(`${process.env.VERSION}`, classRoutes);
 app.use(`${process.env.VERSION}/student`, studentRoutes);
 app.use(`${process.env.VERSION}/teacher`, teacherRoutes);
+app.use(`${process.env.VERSION}/quiz`, quizRoutes);
 app.use(errorMiddleware);
 
 
@@ -42,6 +44,7 @@ app.use(errorMiddleware);
 
 const port = process.env.PORT || 3000;
 //listening server
+
 app.listen(port, () => {
     console.log("server is listening at port " + port)
 });
