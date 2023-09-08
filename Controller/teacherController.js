@@ -21,16 +21,17 @@ const sendCollabRequest = async (req, res, next) => {
                 collabTeachers: 1,
             }
         )
-        //Get Teacher Data
-        const resp = await User.findOne(
-            { email: req.body.email },
-            {
-                email: 1,
-                institutes: 1,
-                collabSendRqsts: 1
-            }
-        )
+        //Check If Institute Exists
         if (instResp) {
+            //Get Teacher Data
+            const resp = await User.findOne(
+                { email: req.body.email },
+                {
+                    email: 1,
+                    institutes: 1,
+                    collabSendRqsts: 1
+                }
+            )
             //Check If Already Request Is Sent
             if (instResp.collabRqsts.includes(resp._id)) {
                 next(new ErrorHandler("Already Request Sent", 404));
@@ -65,6 +66,7 @@ const sendCollabRequest = async (req, res, next) => {
         }
         else {
             next(new ErrorHandler({ message: "Institute Does Not Exists" }, 404));
+
         }
     }
     catch (err) {
@@ -168,10 +170,16 @@ const acceptCollabRequest = async (req, res, next) => {
                 }
             )
 
-            res.status(201).json({
-                success: true,
-                message: `You Have Accepted ${respTeacher.name}`
-            })
+            if (respTeacher) {
+                res.status(201).json({
+                    success: true,
+                    message: `You Have Accepted ${respTeacher.name}`
+                })
+            }
+
+            else {
+                return next(new ErrorHandler("No Such User Exists", 404));
+            }
 
         }
         else {
@@ -277,5 +285,31 @@ const deleteCollabTeachers = async (req, res, next) => {
 }
 
 
+//Get Own Classes
+//Get My Own Classes
+const GetOwnClasses = async (req, res, next) => {
 
-module.exports = { sendCollabRequest, getSentRequests, getCollabRequests, acceptCollabRequest, rejectCollabRequest, deleteCollabTeachers };
+    try {
+        const resp = await User.findOne(
+            {
+                email: req.body.email,
+            },
+            {
+                ownClasses: 1
+            }
+        ).populate({ path: "ownClasses", select: ["name", "admin"] })
+
+        res.status(200).json({
+            success: true,
+            data: resp
+        })
+    }
+    catch (err) {
+
+        next(new ErrorHandler(err.message, 404));
+    }
+}
+
+
+
+module.exports = { sendCollabRequest, getSentRequests, getCollabRequests, acceptCollabRequest, rejectCollabRequest, deleteCollabTeachers, GetOwnClasses };

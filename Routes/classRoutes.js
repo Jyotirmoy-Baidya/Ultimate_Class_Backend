@@ -1,10 +1,14 @@
 const express = require("express");
-const { AddClass, DeleteClass, GetOwnClasses } = require("../Controller/classController");
+const { AddClass, DeleteClass, GetClassData, GetClassTeacherSubjects } = require("../Controller/classController");
 const router = express.Router();
 
 
 router.post("/createNewClass", AddClass);
 router.delete("/deleteClass/:id", DeleteClass);
-router.get("/ownClasses", GetOwnClasses);
+
+//Working on Single Class
+router.get("/singleClass/:id", GetClassData);
+router.get("/subjectTeacherPair/:id", GetClassTeacherSubjects);
+
 
 module.exports = router;

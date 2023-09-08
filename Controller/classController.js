@@ -6,29 +6,43 @@ const { ErrorHandler } = require('../utils/errorHandler');
 //getData: //className//adminEmail
 const AddClass = async (req, res, next) => {
     try {
-        //Creating a New Class
-        const NewClass = await Class.create({
-            name: req.body.className,
-            admin: req.body.adminEmail,
-            subjects: ["Admin"],
-            subTeacherPair: [{
-                teacherId: req.body.adminEmail,
-                subject: "Admin"
-            }]
-        });
-        //Sending The New Class Id To Admin
-        const OwnClassesUpdate = await User.updateOne(
+        const TeacherUser = await User.findOne(
             { email: req.body.adminEmail },
-            {
-                $push: {
-                    ownClasses: [NewClass._id]
-                }
-            }
+            { _id: 1 }
         )
-        res.status(200).json({
-            success: true,
-            message: "New Class Created"
-        });
+        if (TeacherUser) {
+            //Creating a New Class
+            const NewClass = await Class.create({
+                name: req.body.className,
+                admin: req.body.adminEmail,
+                subjects: ["Admin"],
+                subTeacherPair: [{
+                    teacherId: TeacherUser._id,
+                    subject: "Admin"
+                }]
+            });
+            if (NewClass) {
+                //Sending The New Class Id To Admin
+                const OwnClassesUpdate = await User.updateOne(
+                    { email: req.body.adminEmail },
+                    {
+                        $push: {
+                            ownClasses: [NewClass._id]
+                        }
+                    }
+                )
+                res.status(200).json({
+                    success: true,
+                    message: "New Class Created"
+                });
+            }
+            else {
+                return next(new ErrorHandler("Class Cannot Be Created", 404));
+            }
+        }
+        else {
+            return next(new ErrorHandler("User Does Not Exists", 404));
+        }
     }
     catch (err) {
         next(new ErrorHandler(err.message, 404));
@@ -61,28 +75,91 @@ const DeleteClass = async (req, res, next) => {
     }
 }
 
-//Get My Own Classes
-const GetOwnClasses = async (req, res, next) => {
-
+//Get Class Data
+const GetClassData = async (req, res, next) => {
     try {
-        const resp = await User.findOne(
+        const resp = await Class.findById(
+            { _id: req.params.id },
             {
-                email: req.body.email,
-            },
-            {
-                ownClasses: 1
+                name: 1,
+                admin: 1
             }
-        ).populate({ path: "ownClasses", select: ["name", "admin"] })
-
-        res.status(200).json({
+        )
+        res.status(201).json({
             success: true,
             data: resp
         })
     }
     catch (err) {
+        next(new ErrorHandler(err, 404));
+    }
+};
 
-        next(new ErrorHandler(err.message, 404));
+//Get Class Teachers With Subjects
+const GetClassTeacherSubjects = async (req, res, next) => {
+    try {
+        const resp = await Class.findById(
+            { _id: req.params.id },
+            { subTeacherPair: 1 }
+        );
+        if (resp) {
+            const data = await Promise.all(resp.subTeacherPair.map(async (ele) => {
+                const teacher = await User.findById(ele.teacherId)
+                return {
+                    teacherId: ele.teacherId,
+                    teacherName: teacher.name,
+                    subject: ele.subject
+                }
+            }));
+
+            res.status(201).json({
+                success: true,
+                data: data
+            })
+        }
+        else {
+            return next(new ErrorHandler("Class Not Found", 404));
+        }
+    }
+    catch (err) {
+        return (next(new ErrorHandler(err, 404)));
     }
 }
 
-module.exports = { AddClass, DeleteClass, GetOwnClasses };
+//Delete Teacher SubTeacher Pair
+const deleteSubTeacherPair = async (req, res, next) => {
+    try {
+        const updatePair = await Class.updateOne(
+            { _id: req.params.id },
+            {
+                $pull:
+                    { subTeacherPair: { teacherId: req.body.teacherId } }
+            }
+        )
+
+        const updateTeacher = await User.updateOne({ _id: teacherid }, { $pull: { otherclasses: classid } })
+
+        if (updatePair && updateTeacher) {
+            res.json({
+                success: true,
+                message: "subject successfully deleted"
+            });
+        }
+        else {
+            next(new ErrorHandler("database error", 404))
+        }
+    } catch (error) {
+        next(new ErrorHandler(error.message, 404))
+    }
+
+}
+
+
+
+
+
+
+
+
+
+module.exports = { AddClass, DeleteClass, GetClassData, GetClassTeacherSubjects };
