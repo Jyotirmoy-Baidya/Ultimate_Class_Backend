@@ -19,7 +19,8 @@ const quizResponse = new mongoose.Schema(
                 studentAnswer: {
                     type: [String]
                     //                    required : true
-                }}]
+                }
+            }]
         },
         score: {
             type: Number,
@@ -31,4 +32,4 @@ const quizResponse = new mongoose.Schema(
 )
 
 
-module.exports=mongoose.model("QuizResponse",quizResponse);
+module.exports = mongoose.model("QuizResponse", quizResponse);

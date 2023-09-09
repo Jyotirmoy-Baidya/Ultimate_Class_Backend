@@ -10,7 +10,6 @@ router.get("/getCollabRqst", getCollabRequests);
 router.post("/acceptCollab", acceptCollabRequest);
 router.post("/rejectCollab", rejectCollabRequest);
 router.delete("/deleteCollabTeacher", deleteCollabTeachers);
-
 router.get("/ownClasses", GetOwnClasses);
 
 module.exports = router;

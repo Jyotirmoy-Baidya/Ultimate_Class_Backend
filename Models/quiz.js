@@ -29,7 +29,7 @@ const Quizes = new mongoose.Schema(
         },
         noOfQuestionsToDisplay: {
             type: Number,
-            required: "true"
+            // required: "true"
         },
         shuffle: {
             type: Boolean,
