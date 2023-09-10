@@ -9,7 +9,7 @@ const teacherRoutes = require("./Routes/teacherRoutes");
 const studentRoutes = require("./Routes/studentRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const classRoutes = require("./Routes/classRoutes");
-const quizRoutes = require("./Routes/quizRoutes");
+const quizRoutes=require("./Routes/quizRoutes")
 
 
 // const router = require("./routes/route.js")
