@@ -2,29 +2,30 @@ const mongoose = require("mongoose");
 
 const quizQuestions = new mongoose.Schema(
     {
-        Question: {
+        question: {
             type: String,
             required: true
         },
-        Type: {
+        type: {
             type: String,
             required: true,
             enum: ["multi", "single"]
         },
-        Options: {
+        options: {
             type: [String],
             required: true
         },
-        CorrectAnswers: {
+        correctAnswers: {
             type: [String],
             required: true
         },
-        Marks: {
+        marks: {
             type: Number,
             required: true
         },
-        NegativeMarks: {
+        negativeMarks: {
             type: Number,
+            default: 0
         },
 
 
