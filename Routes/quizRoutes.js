@@ -3,7 +3,7 @@ const router = express.Router();
 const { createQuiz, addQuestionsToQuiz, deleteQuestionsFromQuiz, getQuestionsOfQuiz, updateQuestionById, getQuizQuestionById,
     deleteQuiz,
     createAndGetStudentResponse,
-    editStudentResponse } = require("../Controller/quizController");
+    editStudentResponse,submitStudentResponse } = require("../Controller/quizController");
 
 
 
@@ -18,7 +18,8 @@ router.put("/quizQuestionUpdate/:questionId", updateQuestionById)
 
 router.delete("/deleteQuiz", deleteQuiz);
 router.post("/createAndGetStudentResponse/:quizId", createAndGetStudentResponse);
-router.put("/editStudentResponse", editStudentResponse);
+router.put("/editStudentResponse/:quizId", editStudentResponse);
+router.post("/submitStudentResponse/:quizId", submitStudentResponse);
 
 
 module.exports = router

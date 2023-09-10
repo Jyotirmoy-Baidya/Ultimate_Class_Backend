@@ -321,6 +321,6 @@ const submitStudentResponse = async (req, res, next) => {
 module.exports = {
     createQuiz, addQuestionsToQuiz, deleteQuestionsFromQuiz, getQuestionsOfQuiz, updateQuestionById, deleteQuiz,
     createAndGetStudentResponse,
-    editStudentResponse
+    editStudentResponse,submitStudentResponse
 }
 
