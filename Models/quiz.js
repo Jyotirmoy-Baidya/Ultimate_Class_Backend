@@ -29,7 +29,7 @@ const Quizes = new mongoose.Schema(
         // Array of question id 
         questions: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
-            ref: "Questions"
+            ref: "QuizQuestions"
         },
         noOfQuestionsToDisplay: {
             type: Number,
