@@ -143,6 +143,62 @@ const editStudentResponse = async (req, res, next) => {
     }
 }
 
+//submit student response
+const submitStudentResponse = async (req, res, next) => {
+    try {
+        const { quizId } = req.params;
+        const findQuiz = await Quiz.findById(quizId, { questions: 1 });
+        if (findQuiz) {
+            findResponse=await StudentResponse.findOne({quizId,studentId:req.body.studentId}).populate({path:"response.questionId"})
+            if(findResponse){
+                let score=0;
+                findResponse.response.forEach((response)=>{
+                    
+                    response.questionId.correctAnswers.forEach((answer)=>{
+                        let correct=true;
+                        if(!response.studentAnswer.includes(answer)){
+                            correct=false;
+                        }
+
+                        if(correct){
+                            score+=(response.questionId.marks/response.questionId.correctAnswers.lenth);
+                        }
+                        else{
+                            score-=(response.questionId.nagativeMarks/response.questionId.correctAnswers.lenth);
+                        }
+                    })
+                  
+                }
+                )
+                const submitResponse=await StudentResponse.findOneAndUpdate(
+                    { quizId, studentId: req.body.studentId },
+                    {
+                        $set: {
+                            score:score
+                        }
+                    }
+                )
+                if(submitResponse){
+                    res.status(200).json({
+                        success: true,
+                        message: "Response Submitted"
+                    })
+                }
+                else{
+                    return next(new ErrorHandler("Response Not Submitted", 404));
+                }
+            }
+            else{
+                return next(new ErrorHandler("Response Not Found", 404));
+            }
+        }
+        else {
+            return next(new ErrorHandler("Quiz Not Found", 404));
+        }
+    } catch (error) {
+        return next(new ErrorHandler(error.message, 404))
+    }
+}
 
 //module exports
 module.exports = {
