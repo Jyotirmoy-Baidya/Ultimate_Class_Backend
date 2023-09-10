@@ -25,6 +25,10 @@ const quizResponse = new mongoose.Schema(
         score: {
             type: Number,
             default: 0
+        },
+        createAt: {
+            type: Date,
+            default: Date.now
         }
 
 

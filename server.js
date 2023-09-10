@@ -10,6 +10,7 @@ const studentRoutes = require("./Routes/studentRoutes");
 const userRoutes = require("./Routes/userRoutes");
 const classRoutes = require("./Routes/classRoutes");
 const quizRoutes=require("./Routes/quizRoutes")
+const anouncementRoutes=require("./Routes/anouncementRoutes")
 
 
 // const router = require("./routes/route.js")
@@ -35,6 +36,7 @@ app.use(`${process.env.VERSION}/class`, classRoutes);
 app.use(`${process.env.VERSION}/student`, studentRoutes);
 app.use(`${process.env.VERSION}/teacher`, teacherRoutes);
 app.use(`${process.env.VERSION}/quiz`, quizRoutes);
+app.use(`${process.env.VERSION}/anouncement`, anouncementRoutes);
 app.use(errorMiddleware);
 
 

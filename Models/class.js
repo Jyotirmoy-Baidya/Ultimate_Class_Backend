@@ -39,6 +39,14 @@ const Classes = new mongoose.Schema(
         },
         endEmail: {
             type: String,
+        },
+        anouncements:{
+            type:[{type:mongoose.Schema.Types.ObjectId }],
+            ref:"Anouncements"
+        },
+        createAt: {
+            type: Date,
+            default: Date.now
         }
     }
 )

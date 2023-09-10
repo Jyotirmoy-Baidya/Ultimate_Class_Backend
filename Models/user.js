@@ -47,6 +47,10 @@ const User = new mongoose.Schema(
         classes: {
             type: [{ type: mongoose.Schema.Types.ObjectId }],
             ref: "Classes"
+        },
+        createAt: {
+            type: Date,
+            default: Date.now
         }
     }
 )
