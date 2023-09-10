@@ -16,7 +16,7 @@ router.get("/getQuizQuestions/:quizId", getQuestionsOfQuiz);
 router.put("/quizQuestionUpdate/:questionId", updateQuestionById)
 
 
-router.delete("/deleteQuiz", deleteQuiz);
+router.delete("/deleteQuiz/:quizId", deleteQuiz);
 router.post("/createAndGetStudentResponse/:quizId", createAndGetStudentResponse);
 router.put("/editStudentResponse/:quizId", editStudentResponse);
 router.post("/submitStudentResponse/:quizId", submitStudentResponse);

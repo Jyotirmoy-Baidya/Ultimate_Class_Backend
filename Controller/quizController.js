@@ -52,7 +52,7 @@ const addQuestionsToQuiz = async (req, res, next) => {
         )
         res.status(201).json({
             success: true,
-            data: selectedQuiz
+            mesage: "Questions added"
         })
     }
     catch (err) {
@@ -127,7 +127,8 @@ const updateQuestionById = async function updateQuestionById(req, res, next) {
                     type: req.body.type,
                     options: req.body.options,
                     marks: req.body.marks,
-                    negativeMarks: req.body.negativeMarks
+                    negativeMarks: req.body.negativeMarks,
+                    correctAnswers: req.body.correctAnswers
                 }
             });
         res.status(200).json({
@@ -256,28 +257,43 @@ const submitStudentResponse = async (req, res, next) => {
     try {
         const { quizId } = req.params;
         const findQuiz = await Quiz.findById(quizId, { questions: 1 });
+        
         if (findQuiz) {
-            findResponse=await StudentResponse.findOne({quizId,studentId:req.body.studentId}).populate({path:"response.questionId"})
+            
+            findResponse=await StudentResponse.findOne(
+                { quizId: quizId, studentId: req.body.studentId },
+                { response: 1 }
+            ).populate(
+                {
+                    path: "response.questionId",
+                    select: ["question", "options", "marks", "type", "negativeMarks","correctAnswers","studentAnswer"]
+                }
+            )
+           
             if(findResponse){
                 let score=0;
-                findResponse.response.forEach((response)=>{
-                    
-                    response.questionId.correctAnswers.forEach((answer)=>{
+                response.questionId.correctAnswers.forEach((answer)=>{
+                    findResponse.response.forEach((response)=>{
                         let correct=true;
-                        if(!response.studentAnswer.includes(answer)){
+                        if(!answer.includes(response.studentAnswer)){
                             correct=false;
                         }
 
                         if(correct){
-                            score+=(response.questionId.marks/response.questionId.correctAnswers.lenth);
+                            score+=(response.questionId.marks/response.questionId.correctAnswers.length);
+
                         }
                         else{
-                            score-=(response.questionId.nagativeMarks/response.questionId.correctAnswers.lenth);
+                        
+                            score-=(response.questionId.negativeMarks/response.questionId.correctAnswers.length);
+                           
                         }
+                       
                     })
                   
                 }
                 )
+              
                 const submitResponse=await StudentResponse.findOneAndUpdate(
                     { quizId, studentId: req.body.studentId },
                     {
@@ -289,7 +305,9 @@ const submitStudentResponse = async (req, res, next) => {
                 if(submitResponse){
                     res.status(200).json({
                         success: true,
-                        message: "Response Submitted"
+                        message: "Response Submitted",
+                        score
+                        
                     })
                 }
                 else{
