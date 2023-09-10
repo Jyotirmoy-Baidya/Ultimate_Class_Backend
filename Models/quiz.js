@@ -10,6 +10,10 @@ const Quizes = new mongoose.Schema(
             type: String,
             required: true
         },
+        admin: {
+            type:[{type: mongoose.Schema.Types.ObjectId}],
+            ref: "Users"
+        },
         subject: {
             type: String,
             required: true
